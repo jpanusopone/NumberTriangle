@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -111,10 +112,12 @@ public class NumberTriangle {
 
 
         // TODO define any variables that you want to use to store things
-
+//        NumberTriangle left = null;
+//        NumberTriangle right = null;
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
         NumberTriangle top = null;
+        ArrayList<ArrayList<NumberTriangle>>  bigList = new ArrayList<>();
 
         String line = br.readLine();
         while (line != null) {
@@ -123,10 +126,30 @@ public class NumberTriangle {
             System.out.println(line);
 
             // TODO process the line
+            ArrayList<NumberTriangle> list = new  ArrayList<>();
+            String[] strArray = line.split(" ");
+            for (int i = 0; i< strArray.length; i++){
+               NumberTriangle tri = new NumberTriangle(Integer.parseInt(strArray[i]));
+               list.add(tri);
+            }
+            bigList.add(list);
+
 
             //read the next line
             line = br.readLine();
         }
+
+        for (int i = 1; i<bigList.size(); i++){
+            ArrayList<NumberTriangle> prevList = bigList.get(i-1);
+            ArrayList<NumberTriangle> currList = bigList.get(i);
+            for (int j = 0; j<bigList.get(i).size()-1; j++){
+//                prevList.get(j).setLeft(bigList.get(i).get(j));
+                prevList.get(j).setLeft(currList.get(j));
+                prevList.get(j).setRight(currList.get(j+1));
+            }
+        }
+
+        top = bigList.get(0).get(0);
         br.close();
         return top;
     }
